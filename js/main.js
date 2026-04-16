@@ -8,9 +8,7 @@ if (menuToggle && mobileMenu && navButtons) {
     navButtons.classList.toggle("active");
 
     const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-    menuToggle.setAttribute("aria-expanded", !isExpanded);
+    menuToggle.setAttribute("aria-expanded", String(!isExpanded));
     menuToggle.textContent = isExpanded ? "☰" : "✕";
   });
 }
-
-console.log("TeamUp UJ Home Page Loaded");
