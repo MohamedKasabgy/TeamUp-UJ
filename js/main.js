@@ -1,1 +1,1 @@
-console.log("TeamUp UJ is running.");
+console.log("TeamUp UJ Home Page Loaded");
