@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeamUp UJ - Contact Us</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="top-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo-wrapper">
+        <img src="media/TeamUp-logo.png" alt="TeamUp UJ logo" class="logo-image" />
+        <span class="logo-text">TeamUp UJ</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        ☰
+      </button>
+
+      <nav class="main-nav" id="mobileMenu">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="contact-us.html">Contact Us</a></li>
+          <li><a href="team-builder.html">Team Builder</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-buttons">
+        <a href="contact-us.html" class="btn btn-light">Contact</a>
+        <a href="team-builder.html" class="btn btn-brand">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <span class="badge gradient-badge">Contact TeamUp UJ</span>
+        <h1>Get in touch with <span class="gradient-text">our team</span></h1>
+        <p>
+          Use the form below to send your message. We would love to hear your
+          questions, feedback, or suggestions.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">Contact Information</span>
+          <h2>Let’s talk about your ideas</h2>
+          <p>
+            TeamUp UJ helps students connect and form better project teams.
+            Feel free to contact us for support, feedback, or collaboration ideas.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Email</h3>
+              <p>
+                <a href="mailto:teamupuj@uj.edu.sa">teamupuj@uj.edu.sa</a>
+              </p>
+            </div>
+
+            <div class="info-item">
+              <h3>Phone</h3>
+              <p>
+                <a href="tel:+966565440388">+966 56 544 0388</a>
+              </p>
+            </div>
+
+            <div class="info-item">
+              <h3>Location</h3>
+              <p>University of Jeddah, Jeddah, Saudi Arabia</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <form class="contact-form" action="#" method="post">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input
+                  type="text"
+                  id="first-name"
+                  name="first_name"
+                  placeholder="Enter your first name"
+                  required
+                  maxlength="30"
+                  pattern="[A-Za-z\s]{2,30}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input
+                  type="text"
+                  id="last-name"
+                  name="last_name"
+                  placeholder="Enter your last name"
+                  required
+                  maxlength="30"
+                  pattern="[A-Za-z\s]{2,30}"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Gender</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="gender" value="male" required />
+                  <span>Male</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="gender" value="female" required />
+                  <span>Female</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  placeholder="05XXXXXXXX"
+                  required
+                  pattern="05[0-9]{8}"
+                  maxlength="10"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="date_of_birth"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="language">Language of Communication</label>
+              <select id="language" name="language" required>
+                <option value="">Select a language</option>
+                <option value="arabic">Arabic</option>
+                <option value="english">English</option>
+                <option value="french">French</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                placeholder="Write your message here..."
+                required
+                minlength="10"
+                maxlength="500"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-brand submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 TeamUp UJ. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

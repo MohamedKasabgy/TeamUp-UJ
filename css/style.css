@@ -20,6 +20,8 @@
     --surface: #18212f;
     --surface-2: #1f2937;
     --heading: #f9fafb;
+    --link-blue: #60a5fa;
+    --link-blue-hover: #93c5fd;
   }
   
   body {
@@ -51,6 +53,7 @@
     box-shadow: var(--shadow);
     flex-wrap: wrap;
     backdrop-filter: blur(8px);
+    position: relative;
   }
   
   .logo-wrapper {
@@ -91,6 +94,10 @@
     color: transparent;
   }
   
+  .main-nav {
+    display: flex;
+  }
+  
   .nav-links {
     list-style: none;
     display: flex;
@@ -113,6 +120,21 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+  }
+  
+  .menu-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  
+  .menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.08);
   }
   
   .btn {
@@ -149,11 +171,13 @@
     background-color: rgba(255, 255, 255, 0.07);
   }
   
-  .hero {
+  .hero,
+  .page-hero {
     padding: 40px 0 20px;
   }
   
-  .hero-content {
+  .hero-content,
+  .page-hero-content {
     background-color: rgba(24, 33, 47, 0.96);
     border: 1px solid var(--border);
     border-radius: 28px;
@@ -165,7 +189,8 @@
   .badge,
   .mini-badge,
   .card-badge,
-  .step-box span {
+  .step-box span,
+  .member-role-badge {
     display: inline-block;
     padding: 7px 14px;
     border-radius: 999px;
@@ -183,7 +208,8 @@
     margin-bottom: 20px;
   }
   
-  .hero h1 {
+  .hero h1,
+  .page-hero h1 {
     font-size: 3rem;
     line-height: 1.15;
     max-width: 760px;
@@ -191,7 +217,8 @@
     color: var(--heading);
   }
   
-  .hero p {
+  .hero p,
+  .page-hero p {
     max-width: 700px;
     margin: 0 auto;
     color: var(--muted);
@@ -207,7 +234,10 @@
   }
   
   .features,
-  .how-it-works {
+  .how-it-works,
+  .contact-section,
+  .about-team-section,
+  .team-table-section {
     padding: 24px 0;
   }
   
@@ -234,14 +264,18 @@
   }
   
   .cards,
-  .steps {
+  .steps,
+  .team-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
   
   .card,
-  .step-box {
+  .step-box,
+  .contact-info-card,
+  .contact-form-card,
+  .member-card {
     background-color: rgba(31, 41, 55, 0.96);
     border: 1px solid var(--border);
     border-radius: 24px;
@@ -251,7 +285,10 @@
   }
   
   .card:hover,
-  .step-box:hover {
+  .step-box:hover,
+  .contact-info-card:hover,
+  .contact-form-card:hover,
+  .member-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 14px 30px rgba(111, 92, 194, 0.16);
   }
@@ -262,14 +299,19 @@
   }
   
   .card h3,
-  .step-box h3 {
+  .step-box h3,
+  .info-item h3,
+  .member-content h3 {
     color: var(--heading);
     font-size: 1.2rem;
     margin-bottom: 10px;
   }
   
   .card p,
-  .step-box p {
+  .step-box p,
+  .contact-info-card p,
+  .info-item p,
+  .member-content p {
     color: var(--muted);
     font-size: 0.98rem;
     line-height: 1.7;
@@ -301,6 +343,192 @@
     color: var(--muted);
   }
   
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 24px;
+    align-items: start;
+  }
+  
+  .contact-info-card h2 {
+    color: var(--heading);
+    margin: 14px 0 12px;
+    font-size: 2rem;
+  }
+  
+  .info-list {
+    margin-top: 24px;
+    display: grid;
+    gap: 18px;
+  }
+  
+  .info-item {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+  
+  .info-item a,
+  .team-table a,
+  .member-link {
+    color: var(--link-blue);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .info-item a:hover,
+  .team-table a:hover,
+  .member-link:hover {
+    color: var(--link-blue-hover);
+    text-decoration: underline;
+  }
+  
+  .contact-form {
+    display: grid;
+    gap: 18px;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  
+  .form-group {
+    display: grid;
+    gap: 8px;
+  }
+  
+  .form-group label {
+    color: var(--heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--white);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #94a3b8;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.14);
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+  
+  .submit-btn {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  /* About Us */
+  .member-card {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .member-image-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 22px;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+  }
+  
+  .member-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .member-role-badge {
+    margin-bottom: 12px;
+  }
+  
+  .member-content h3 {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+  
+  .member-id {
+    margin-bottom: 12px;
+    color: #c4b5fd !important;
+    font-weight: 600;
+  }
+  
+  .member-link {
+    display: inline-block;
+    margin-top: 12px;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .team-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(31, 41, 55, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  
+  .team-table th,
+  .team-table td {
+    padding: 16px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .team-table th {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--heading);
+    font-size: 0.95rem;
+  }
+  
+  .team-table td {
+    color: var(--muted);
+  }
+  
+  .team-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+  
   .site-footer {
     padding: 0 0 30px;
   }
@@ -316,41 +544,76 @@
   }
   
   @media (max-width: 992px) {
-    .hero h1 {
+    .hero h1,
+    .page-hero h1 {
       font-size: 2.4rem;
     }
   
     .cards,
-    .steps {
+    .steps,
+    .team-cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .contact-layout {
+      grid-template-columns: 1fr;
     }
   }
   
   @media (max-width: 768px) {
     .navbar {
-      flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+    }
+  
+    .menu-toggle {
+      display: block;
+      margin-left: auto;
+    }
+  
+    .main-nav {
+      display: none;
+      width: 100%;
+      order: 4;
+    }
+  
+    .main-nav.active {
+      display: block;
     }
   
     .nav-links {
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
     }
   
     .nav-buttons {
+      display: none;
       width: 100%;
+      order: 5;
     }
   
-    .hero-content {
+    .nav-buttons.active {
+      display: flex;
+      flex-direction: column;
+      margin-top: 14px;
+    }
+  
+    .hero-content,
+    .page-hero-content {
       padding: 55px 18px 45px;
     }
   
-    .hero h1 {
+    .hero h1,
+    .page-hero h1 {
       font-size: 2rem;
     }
   
     .cards,
-    .steps {
+    .steps,
+    .form-row,
+    .team-cards {
       grid-template-columns: 1fr;
     }
   
@@ -360,12 +623,24 @@
     }
   }
   
+  @media (min-width: 769px) {
+    .main-nav {
+      display: flex !important;
+    }
+  
+    .nav-buttons {
+      display: flex !important;
+    }
+  }
+  
   @media (max-width: 576px) {
-    .hero h1 {
+    .hero h1,
+    .page-hero h1 {
       font-size: 1.7rem;
     }
   
-    .section-heading h2 {
+    .section-heading h2,
+    .contact-info-card h2 {
       font-size: 1.5rem;
     }
   
@@ -386,5 +661,11 @@
     .logo-image {
       width: 36px;
       height: 36px;
+    }
+  
+    .team-table th,
+    .team-table td {
+      padding: 14px 12px;
+      font-size: 0.9rem;
     }
   }
