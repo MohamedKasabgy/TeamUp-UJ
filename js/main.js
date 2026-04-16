@@ -1,0 +1,1 @@
+console.log("TeamUp UJ is running.");
