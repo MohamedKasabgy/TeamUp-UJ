@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UJ FileHub - File Library</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="top-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo-wrapper">
+        <img src="media/TeamUp-logo.png" alt="UJ FileHub logo" class="logo-image" />
+        <span class="logo-text">UJ FileHub</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        ☰
+      </button>
+
+      <nav class="main-nav" id="mobileMenu">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="contact-us.html">Contact Us</a></li>
+          <li><a href="file-library.html">File Library</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-light">Login</a>
+        <a href="signup.html" class="btn btn-brand">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <span class="badge gradient-badge">Study Resources Platform</span>
+        <h1>Explore your <span class="gradient-text">course library</span></h1>
+        <p>
+          UJ FileHub helps students browse course materials, create accounts,
+          upload useful files, add new courses, and organize study sessions.
+        </p>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="mini-badge gradient-badge">Available Subjects</span>
+          <h2>Browse courses and find useful <span class="gradient-text">study files</span></h2>
+          <p>
+            Students can search for subject materials such as summaries, lecture notes,
+            study guides, lab files, and shared academic resources.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <span class="card-badge gradient-badge">Web Development</span>
+            <h3>Front-End & Back-End Files</h3>
+            <p>HTML, CSS, JavaScript labs, summaries, and project references shared by students.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-badge gradient-badge">Database Systems</span>
+            <h3>SQL and ERD Resources</h3>
+            <p>Database explanations, SQL practice files, schema exercises, and design notes.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-badge gradient-badge">Software Engineering</span>
+            <h3>Requirements & Diagrams</h3>
+            <p>Documents, use cases, requirement notes, architecture diagrams, and study materials.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-badge gradient-badge">Algorithms</span>
+            <h3>Problem Solving Files</h3>
+            <p>Practice sheets, explanations, pseudocode notes, and algorithm review material.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-badge gradient-badge">Computer Architecture</span>
+            <h3>Revision Resources</h3>
+            <p>Lecture summaries, assembly references, exercises, and architecture review notes.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-badge gradient-badge">Networks</span>
+            <h3>Course Support Files</h3>
+            <p>Networking notes, lab resources, and protocol summaries uploaded by students.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="accountAccessSection">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">Account Access</span>
+          <h2>Start with your account</h2>
+          <p>
+            Students need an account to upload files, add courses, and create study sessions.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>New here?</h3>
+              <p>Create your account first using your university information.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Already registered?</h3>
+              <p>Log in and continue sharing course resources with other students.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Access pages</h3>
+              <p>
+                <a href="signup.html">Go to Sign Up</a><br />
+                <a href="login.html">Go to Login</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <div class="contact-form">
+            <a href="signup.html" class="btn btn-brand submit-btn">Create Account</a>
+            <a href="login.html" class="btn btn-light submit-btn">Login</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">Upload Resources</span>
+          <h2>Share useful files with other students</h2>
+          <p>
+            Upload study materials for a selected course to help others prepare for assignments, quizzes, and exams.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Supported content</h3>
+              <p>Summaries, lecture notes, study guides, lab files, and review documents.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Before uploading</h3>
+              <p>Make sure the course exists in the system and that you already created an account.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>File ownership</h3>
+              <p>Each file is linked to the uploader email and course name in the database.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <form class="contact-form" id="uploadForm" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="student-email">Student Email</label>
+                <input type="email" id="student-email" name="student_email" placeholder="Enter your account email" required />
+              </div>
+
+              <div class="form-group">
+                <label for="course-name">Course Name</label>
+                <select id="course-name" name="course_name" required>
+                  <option value="">Select a course</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Database Systems">Database Systems</option>
+                  <option value="Software Engineering">Software Engineering</option>
+                  <option value="Algorithms">Algorithms</option>
+                  <option value="Computer Architecture">Computer Architecture</option>
+                  <option value="Networks">Networks</option>
+                  <option value="Operating Systems">Operating Systems</option>
+                  <option value="Artificial Intelligence">Artificial Intelligence</option>
+                  <option value="Cybersecurity">Cybersecurity</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="file-title">File Title</label>
+              <input type="text" id="file-title" name="file_title" placeholder="Enter file title" required maxlength="150" />
+            </div>
+
+            <div class="form-group">
+              <label for="file-description">File Description</label>
+              <textarea id="file-description" name="file_description" rows="5" placeholder="Write a short description of the file..." required minlength="10" maxlength="300"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="file-upload">Upload File</label>
+              <input type="file" id="file-upload" name="file_upload" required />
+            </div>
+
+            <p id="upload-message"></p>
+            <button type="submit" class="btn btn-brand submit-btn">Upload Resource</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="filter-section">
+      <div class="container">
+        <div class="filter-bar">
+          <div class="filter-bar-left">
+            <span class="filter-icon">🔍</span>
+            <h3>Filter by Course</h3>
+          </div>
+          <div class="filter-bar-right">
+            <select id="courseFilter">
+              <option value="">All Courses</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Database Systems">Database Systems</option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Algorithms">Algorithms</option>
+              <option value="Computer Architecture">Computer Architecture</option>
+              <option value="Networks">Networks</option>
+              <option value="Operating Systems">Operating Systems</option>
+              <option value="Artificial Intelligence">Artificial Intelligence</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+            </select>
+            <button class="btn btn-brand btn-filter" id="clearFilter" style="display:none;">✕ Clear</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="mini-badge gradient-badge">Uploaded Files</span>
+          <h2>Browse shared <span class="gradient-text">study resources</span></h2>
+          <p id="filesSubtitle">Files uploaded by students across all courses.</p>
+        </div>
+        <div class="cards" id="filesGrid">
+          <p class="empty-state">Loading files...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">Add New Course</span>
+          <h2>Create a new course category</h2>
+          <p>
+            If the subject is not already listed, students can add a new course with its code and description.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Course name</h3>
+              <p>Example: Operating Systems, Artificial Intelligence, Cybersecurity.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Course code</h3>
+              <p>Example: CCSW321, SWE302, CNET220.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Description</h3>
+              <p>Add a short description so students know what resources belong to the course.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <form class="contact-form" id="courseForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="new-course-name">Course Name</label>
+                <input type="text" id="new-course-name" name="course_name" placeholder="Enter course name" required maxlength="100" />
+              </div>
+
+              <div class="form-group">
+                <label for="new-course-code">Course Code</label>
+                <input type="text" id="new-course-code" name="course_code" placeholder="Enter course code" required maxlength="20" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="new-course-description">Course Description</label>
+              <textarea id="new-course-description" name="description" rows="4" placeholder="Write a short course description..." required maxlength="300"></textarea>
+            </div>
+
+            <p id="course-message"></p>
+            <button type="submit" class="btn btn-brand submit-btn">Add Course</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">Study Sessions</span>
+          <h2>Set a meeting time with other students</h2>
+          <p>
+            Create a study session for a specific course and choose whether it is online or on campus.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Date & Time</h3>
+              <p>Choose the exact review session date and time.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Location or Link</h3>
+              <p>Add a physical location or an online meeting link depending on the session type.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Notes</h3>
+              <p>Add the topic of the session such as lab review, quiz prep, or final revision.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <form class="contact-form" id="sessionForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="session-email">Student Email</label>
+                <input type="email" id="session-email" name="student_email" placeholder="Enter your account email" required />
+              </div>
+
+              <div class="form-group">
+                <label for="session-course">Course Name</label>
+                <select id="session-course" name="course_name" required>
+                  <option value="">Select a course</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Database Systems">Database Systems</option>
+                  <option value="Software Engineering">Software Engineering</option>
+                  <option value="Algorithms">Algorithms</option>
+                  <option value="Computer Architecture">Computer Architecture</option>
+                  <option value="Networks">Networks</option>
+                  <option value="Operating Systems">Operating Systems</option>
+                  <option value="Artificial Intelligence">Artificial Intelligence</option>
+                  <option value="Cybersecurity">Cybersecurity</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="session-date">Session Date</label>
+                <input type="date" id="session-date" name="session_date" required />
+              </div>
+
+              <div class="form-group">
+                <label for="session-time">Session Time</label>
+                <input type="time" id="session-time" name="session_time" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="session-type">Session Type</label>
+              <select id="session-type" name="session_type" required>
+                <option value="">Select session type</option>
+                <option value="online">Online</option>
+                <option value="on-campus">On-Campus</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="session-location">Location</label>
+              <input type="text" id="session-location" name="location" placeholder="Library room, building, etc." />
+            </div>
+
+            <div class="form-group">
+              <label for="meeting-link">Meeting Link</label>
+              <input type="url" id="meeting-link" name="meeting_link" placeholder="https://meet.google.com/..." />
+            </div>
+
+            <div class="form-group">
+              <label for="session-notes">Notes</label>
+              <textarea id="session-notes" name="notes" rows="4" placeholder="What will you review in this session?"></textarea>
+            </div>
+
+            <p id="session-message"></p>
+            <button type="submit" class="btn btn-brand submit-btn">Create Study Session</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="mini-badge gradient-badge">Upcoming Sessions</span>
+          <h2>Scheduled <span class="gradient-text">study sessions</span></h2>
+          <p>Join a session with fellow students or create your own.</p>
+        </div>
+        <div class="cards" id="sessionsGrid">
+          <p class="empty-state">Loading sessions...</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="quick-info">
+      <div class="container quick-info-box">
+        <div>
+          <h2>Start sharing your <span class="gradient-text">study resources</span></h2>
+          <p>Use the library to upload course files, add new subjects, and schedule meetings.</p>
+        </div>
+        <a href="contact-us.html" class="btn btn-brand">Contact Us</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 UJ FileHub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/file-library.js"></script>
+</body>
+</html>

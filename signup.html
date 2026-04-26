@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UJ FileHub - Sign Up</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="top-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo-wrapper">
+        <img src="media/TeamUp-logo.png" alt="UJ FileHub logo" class="logo-image" />
+        <span class="logo-text">UJ FileHub</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        ☰
+      </button>
+
+      <nav class="main-nav" id="mobileMenu">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="contact-us.html">Contact Us</a></li>
+          <li><a href="file-library.html">File Library</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-light">Login</a>
+        <a href="signup.html" class="btn btn-brand">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <span class="badge gradient-badge">Create Account</span>
+        <h1>Join <span class="gradient-text">UJ FileHub</span></h1>
+        <p>
+          Create your student account to upload resources, add courses, and schedule study sessions.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-layout">
+        <div class="contact-info-card">
+          <span class="mini-badge gradient-badge">New Student Account</span>
+          <h2>Start sharing and learning</h2>
+          <p>
+            Register using your university information and become part of the shared academic library.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Upload files</h3>
+              <p>Share lecture notes, summaries, and helpful course materials.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Add courses</h3>
+              <p>Create course entries when a subject is not already listed.</p>
+            </div>
+
+            <div class="info-item">
+              <h3>Already registered?</h3>
+              <p><a href="login.html">Go to login page</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <form class="contact-form" id="signupForm">
+            <div class="form-group">
+              <label for="signup-name">Full Name</label>
+              <input
+                type="text"
+                id="signup-name"
+                name="full_name"
+                placeholder="Enter your full name"
+                required
+                maxlength="100"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="signup-id">University ID</label>
+              <input
+                type="text"
+                id="signup-id"
+                name="university_id"
+                placeholder="Enter your university ID"
+                required
+                maxlength="20"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input
+                type="email"
+                id="signup-email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input
+                type="password"
+                id="signup-password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                minlength="6"
+              />
+            </div>
+
+            <p id="signup-message"></p>
+
+            <button type="submit" class="btn btn-brand submit-btn">Create Account</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 UJ FileHub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

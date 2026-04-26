@@ -451,6 +451,234 @@
     cursor: pointer;
   }
   
+  /* Filter bar */
+  .filter-section {
+    padding: 10px 0;
+  }
+
+  .filter-bar {
+    background-color: rgba(24, 33, 47, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+  }
+
+  .filter-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter-icon {
+    font-size: 1.3rem;
+  }
+
+  .filter-bar-left h3 {
+    color: var(--heading);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .filter-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .filter-bar-right select {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--white);
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .filter-bar-right select:focus {
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.14);
+  }
+
+  .btn-filter {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  /* File cards & Session cards */
+  .file-card,
+  .session-card {
+    background-color: rgba(31, 41, 55, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .file-card:hover,
+  .session-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(111, 92, 194, 0.16);
+  }
+
+  .file-card h3,
+  .session-card h3 {
+    color: var(--heading);
+    font-size: 1.15rem;
+    margin: 4px 0 2px;
+  }
+
+  .file-card p,
+  .session-card p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .file-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  .btn-delete {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  .btn-delete:hover {
+    background: rgba(255, 107, 107, 0.25);
+    color: #ff4c4c;
+    border-color: rgba(255, 107, 107, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .btn-confirm {
+    background: rgba(255, 193, 7, 0.25) !important;
+    color: #ffc107 !important;
+    border-color: rgba(255, 193, 7, 0.5) !important;
+    animation: pulse-confirm 0.6s ease infinite alternate;
+  }
+
+  @keyframes pulse-confirm {
+    from { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.3); }
+    to { box-shadow: 0 0 8px 2px rgba(255, 193, 7, 0.15); }
+  }
+
+  .file-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .file-actions .btn {
+    flex: 1;
+  }
+
+  .session-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .session-type-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .session-type-badge.online {
+    background: rgba(99, 179, 237, 0.15);
+    color: #63b3ed;
+    border: 1px solid rgba(99, 179, 237, 0.25);
+  }
+
+  .session-type-badge.on-campus {
+    background: rgba(72, 187, 120, 0.15);
+    color: #48bb78;
+    border: 1px solid rgba(72, 187, 120, 0.25);
+  }
+
+  .session-datetime {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .session-link {
+    color: var(--link-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .session-link:hover {
+    color: var(--link-blue-hover);
+    text-decoration: underline;
+  }
+
+  .session-location {
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .session-notes {
+    font-style: italic;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 20px;
+    font-size: 1rem;
+  }
+
+  #upload-message,
+  #course-message,
+  #session-message,
+  #login-message,
+  #signup-message {
+    font-size: 0.92rem;
+    font-weight: 600;
+    min-height: 1.4em;
+  }
+
   /* About Us */
   .member-card {
     padding: 20px;
