@@ -15,19 +15,64 @@ function showMsg(el, text, isError) {
   el.style.color = isError ? "#ff6b6b" : "#51cf66";
 }
 
-/* ── auto-fill email fields & hide login section if logged in ── */
+/* ── auto-fill email fields & hide/show sections based on login ── */
 const user = getUser();
+const accountSection = document.getElementById("accountAccessSection");
+const authUploadForms = document.getElementById("auth-upload-forms");
+
 if (user) {
+  // If logged in: Auto-fill emails, hide the login prompt, and show the forms
   document.querySelectorAll("#student-email, #session-email").forEach(function (el) {
     el.value = user.email;
   });
 
-  // Hide the "Account Access" section since user is already logged in
-  var accountSection = document.getElementById("accountAccessSection");
-  if (accountSection) {
-    accountSection.style.display = "none";
-  }
+  if (accountSection) accountSection.style.display = "none";
+  if (authUploadForms) authUploadForms.style.display = "block";
+} else {
+  // If NOT logged in: Show the login prompt, and hide the forms
+  if (accountSection) accountSection.style.display = "block";
+  if (authUploadForms) authUploadForms.style.display = "none";
 }
+
+/* ── Admin Configuration ── */
+const ADMIN_EMAILS = [
+  "2342932@uj.edu.sa",
+  "2342943@uj.edu.sa",
+  "2342945@uj.edu.sa"
+];
+const isAdmin = user && ADMIN_EMAILS.includes(user.email);
+
+/* ── Tab Switching Logic ── */
+const tabBrowse = document.getElementById("tab-browse");
+const tabUpload = document.getElementById("tab-upload");
+const tabSessions = document.getElementById("tab-sessions");
+
+const btnBrowse = document.getElementById("btn-tab-browse");
+const btnUpload = document.getElementById("btn-tab-upload");
+const btnSessions = document.getElementById("btn-tab-sessions");
+
+function switchTab(activeTab, activeBtn) {
+  if(!tabBrowse) return; 
+  
+  // Hide all tabs
+  tabBrowse.style.display = "none";
+  tabUpload.style.display = "none";
+  tabSessions.style.display = "none";
+  
+  // Reset all buttons to light gray
+  btnBrowse.className = "btn btn-light";
+  btnUpload.className = "btn btn-light";
+  btnSessions.className = "btn btn-light";
+  
+  // Show active tab and highlight button
+  activeTab.style.display = "block";
+  activeBtn.className = "btn btn-brand";
+}
+
+if(btnBrowse) btnBrowse.addEventListener("click", function() { switchTab(tabBrowse, btnBrowse); });
+if(btnUpload) btnUpload.addEventListener("click", function() { switchTab(tabUpload, btnUpload); });
+if(btnSessions) btnSessions.addEventListener("click", function() { switchTab(tabSessions, btnSessions); });
+
 
 /* ── Upload File form ── */
 const uploadForm = document.getElementById("uploadForm");
@@ -223,7 +268,9 @@ async function loadFiles(courseName) {
       var date = new Date(f.uploaded_at).toLocaleDateString("en-US", {
         year: "numeric", month: "short", day: "numeric"
       });
-      var isOwner = user && user.email === f.uploader_email;
+      
+      // ADMIN CHECK INJECTED HERE
+      var isOwner = (user && user.email === f.uploader_email) || isAdmin;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteFile(' + f.id + ', this)">🗑 Delete</button>'
         : "";
@@ -278,7 +325,8 @@ async function loadSessions(courseName) {
         locationInfo = '<span class="session-location">📍 ' + escHtml(s.location) + '</span>';
       }
 
-      var isOwner = user && user.email === s.creator_email;
+      // ADMIN CHECK INJECTED HERE
+      var isOwner = (user && user.email === s.creator_email) || isAdmin;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteSession(' + s.id + ', this)">🗑 Delete</button>'
         : "";

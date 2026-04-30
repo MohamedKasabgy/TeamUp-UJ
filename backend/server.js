@@ -564,8 +564,18 @@ app.delete("/api/files/:id", async (req, res) => {
     }
 
     const userId = users[0].id;
+    const adminEmails = ["2342932@uj.edu.sa", "2342943@uj.edu.sa", "2342945@uj.edu.sa"];
+    const isAdmin = adminEmails.includes(user_email.trim());
 
-    const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    let files;
+    if (isAdmin) {
+      // Admin bypasses ownership check
+      [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? LIMIT 1", [id]);
+    } else {
+      // Normal user must own the file
+      [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    }
+
     if (files.length === 0) {
       return res.status(403).json({ success: false, message: "You can only delete your own files." });
     }
@@ -598,8 +608,18 @@ app.delete("/api/study-sessions/:id", async (req, res) => {
     }
 
     const userId = users[0].id;
+    const adminEmails = ["2342932@uj.edu.sa", "2342943@uj.edu.sa", "2342945@uj.edu.sa"];
+    const isAdmin = adminEmails.includes(user_email.trim());
 
-    const [sessions] = await pool.query("SELECT id FROM study_sessions WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    let sessions;
+    if (isAdmin) {
+      // Admin bypass
+      [sessions] = await pool.query("SELECT id FROM study_sessions WHERE id = ? LIMIT 1", [id]);
+    } else {
+      // Normal user check
+      [sessions] = await pool.query("SELECT id FROM study_sessions WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    }
+
     if (sessions.length === 0) {
       return res.status(403).json({ success: false, message: "You can only delete your own sessions." });
     }
