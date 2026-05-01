@@ -34,14 +34,6 @@ if (user) {
   if (authUploadForms) authUploadForms.style.display = "none";
 }
 
-/* ── Admin Configuration ── */
-const ADMIN_EMAILS = [
-  "2342932@uj.edu.sa",
-  "2342943@uj.edu.sa",
-  "2342945@uj.edu.sa"
-];
-const isAdmin = user && ADMIN_EMAILS.includes(user.email);
-
 /* ── Tab Switching Logic ── */
 const tabBrowse = document.getElementById("tab-browse");
 const tabUpload = document.getElementById("tab-upload");
@@ -269,8 +261,8 @@ async function loadFiles(courseName) {
         year: "numeric", month: "short", day: "numeric"
       });
       
-      // ADMIN CHECK INJECTED HERE
-      var isOwner = (user && user.email === f.uploader_email) || isAdmin;
+      // REVERTED: Only the actual uploader can delete
+      var isOwner = user && user.email === f.uploader_email;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteFile(' + f.id + ', this)">🗑 Delete</button>'
         : "";
@@ -325,8 +317,8 @@ async function loadSessions(courseName) {
         locationInfo = '<span class="session-location">📍 ' + escHtml(s.location) + '</span>';
       }
 
-      // ADMIN CHECK INJECTED HERE
-      var isOwner = (user && user.email === s.creator_email) || isAdmin;
+      // REVERTED: Only the actual creator can delete
+      var isOwner = user && user.email === s.creator_email;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteSession(' + s.id + ', this)">🗑 Delete</button>'
         : "";
