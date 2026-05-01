@@ -430,6 +430,11 @@
     border-color: #a78bfa;
     box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.14);
   }
+
+  select option {
+    background-color: var(--surface);
+    color: var(--white);
+  }
   
   .radio-group {
     display: flex;

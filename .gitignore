@@ -1,0 +1,9 @@
+node_modules/
+backend/node_modules/
+.idea/
+.vscode/
+.DS_Store
+*.pb
+*.log
+backend/uploads/*
+!backend/uploads/.gitkeep
