@@ -590,6 +590,9 @@ app.delete("/api/files/:id", async (req, res) => {
     }
 
     const [files] = await pool.query(filesQuery, queryParams);
+    // REVERTED: Normal user must own the file (No Admin bypass)
+    const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    
     if (files.length === 0) {
       return res.status(403).json({ success: false, message: "You do not have permission to delete this file." });
     }
@@ -649,7 +652,9 @@ app.delete("/api/study-sessions/:id", async (req, res) => {
 
     const userId = users[0].id;
 
+    // REVERTED: Normal user check (No Admin bypass)
     const [sessions] = await pool.query("SELECT id FROM study_sessions WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    
     if (sessions.length === 0) {
       return res.status(403).json({ success: false, message: "You can only delete your own sessions." });
     }
