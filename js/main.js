@@ -31,8 +31,10 @@ if (menuToggle && mobileMenu && navButtons) {
   if (!nb) return;
 
   // Replace Login/Sign Up with user greeting + logout
+  var adminLink = user.role === "admin" ? '<a href="admin.html" class="btn btn-light" style="margin-right: 0.5rem;">Admin Dashboard</a>' : '';
   nb.innerHTML =
-    '<span class="btn btn-light nav-user-name">👋 ' + user.full_name + '</span>' +
+    adminLink +
+    '<span class="btn btn-light nav-user-name" style="margin-right: 0.5rem;">👋 ' + user.full_name + '</span>' +
     '<a href="#" class="btn btn-brand" id="logoutBtn">Logout</a>';
 
   var logoutBtn = document.getElementById("logoutBtn");

@@ -269,7 +269,7 @@ app.post("/api/login", async (req, res) => {
     }
 
     const [users] = await pool.query(
-      "SELECT id, full_name, university_id, email, password FROM users WHERE email = ? LIMIT 1",
+      "SELECT id, full_name, university_id, email, password, role FROM users WHERE email = ? LIMIT 1",
       [email.trim()]
     );
 
@@ -297,7 +297,8 @@ app.post("/api/login", async (req, res) => {
         id: user.id,
         full_name: user.full_name,
         university_id: user.university_id,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {
@@ -388,7 +389,7 @@ app.post("/api/files/upload", upload.single("file_upload"), async (req, res) => 
 
 app.get("/api/files", async (req, res) => {
   try {
-    const { course_name } = req.query;
+    const { course_name, status } = req.query;
 
     let query = `
       SELECT
@@ -396,6 +397,7 @@ app.get("/api/files", async (req, res) => {
         files.file_title,
         files.file_description,
         files.file_path,
+        files.status,
         files.uploaded_at,
         users.full_name AS uploaded_by,
         users.email AS uploader_email,
@@ -407,10 +409,24 @@ app.get("/api/files", async (req, res) => {
     `;
 
     const params = [];
+    const conditions = [];
 
     if (course_name && course_name.trim() !== "") {
-      query += " WHERE courses.course_name = ? ";
+      conditions.push("courses.course_name = ?");
       params.push(course_name.trim());
+    }
+
+    if (status && status.trim() !== "") {
+      if (status !== "all") {
+        conditions.push("files.status = ?");
+        params.push(status.trim());
+      }
+    } else {
+      conditions.push("files.status = 'approved'");
+    }
+
+    if (conditions.length > 0) {
+      query += " WHERE " + conditions.join(" AND ");
     }
 
     query += " ORDER BY files.uploaded_at DESC";
@@ -558,18 +574,27 @@ app.delete("/api/files/:id", async (req, res) => {
       return res.status(400).json({ success: false, message: "User email is required." });
     }
 
-    const [users] = await pool.query("SELECT id FROM users WHERE email = ? LIMIT 1", [user_email.trim()]);
+    const [users] = await pool.query("SELECT id, role FROM users WHERE email = ? LIMIT 1", [user_email.trim()]);
     if (users.length === 0) {
       return res.status(400).json({ success: false, message: "User not found." });
     }
 
-    const userId = users[0].id;
+    const user = users[0];
 
+    let filesQuery = "SELECT id, file_path FROM files WHERE id = ? LIMIT 1";
+    let queryParams = [id];
+
+    if (user.role !== "admin") {
+      filesQuery = "SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1";
+      queryParams = [id, user.id];
+    }
+
+    const [files] = await pool.query(filesQuery, queryParams);
     // REVERTED: Normal user must own the file (No Admin bypass)
     const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
     
     if (files.length === 0) {
-      return res.status(403).json({ success: false, message: "You can only delete your own files." });
+      return res.status(403).json({ success: false, message: "You do not have permission to delete this file." });
     }
 
     const filePath = path.join(__dirname, files[0].file_path);
@@ -582,6 +607,32 @@ app.delete("/api/files/:id", async (req, res) => {
     res.json({ success: true, message: "File deleted successfully." });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to delete file." });
+  }
+});
+
+app.put("/api/files/:id/status", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, admin_email } = req.body;
+
+    if (!admin_email || !status) {
+      return res.status(400).json({ success: false, message: "Admin email and status are required." });
+    }
+
+    if (!['pending', 'approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status value." });
+    }
+
+    const [users] = await pool.query("SELECT id, role FROM users WHERE email = ? LIMIT 1", [admin_email.trim()]);
+    if (users.length === 0 || users[0].role !== "admin") {
+      return res.status(403).json({ success: false, message: "Only administrators can moderate files." });
+    }
+
+    await pool.query("UPDATE files SET status = ? WHERE id = ?", [status, id]);
+
+    res.json({ success: true, message: `File status updated to ${status} successfully.` });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to update file status." });
   }
 });
 
