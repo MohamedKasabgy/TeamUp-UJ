@@ -72,12 +72,29 @@ INSERT INTO courses (course_name, course_code, description) VALUES
 ('Artificial Intelligence', 'AI310', 'AI basics, search, agents, and intelligent systems.'),
 ('Cybersecurity', 'CYB320', 'Security concepts, threats, and defensive techniques.');
 
--- Create the existing users for testing
-INSERT INTO users (full_name, university_id, email, password, role) VALUES
-('test', '123456', 'zoot@gmail.com', '$2b$10$vQW9kduwKhOD3S4rsOAYfe8vuXEL/xhXcvwiYEPCGzkUoiQvhvZ7q', 'admin'),
-('test user', '12345', 'zooten@gmail.com', '$2b$10$aP1251dl/GWFho8pIOpMyeP.v894hCJYCNfzZzTOfCBpnBjlHActe', 'student');
-
 -- Create the existing files for testing
 INSERT INTO files (user_id, course_id, file_title, file_description, file_path, status) VALUES
-(2, 1, 'test file', 'hgjdhbjkdfbkdf', '/uploads/1777624892158-Lab_6.pdf', 'approved'),
-(2, 1, 'Node.js Routing Examples', 'Study notes for Node JS routing', '/uploads/1777237320316-Node-JS-Routing-Examples.pdf', 'approved');
+(1, 1, 'CCSW 321 Part1 INTRODUCTION', 'A helpful file for web', '/uploads/web/CCSW 321 Part1 INTRODUCTION.pdf', 'approved'),
+(1, 1, 'CCSW 321 Part2.1 HTML', 'A helpful file for web', '/uploads/web/CCSW 321 Part2.1 HTML.pdf', 'approved'),
+(1, 1, 'CCSW321-Part2.2-HTML (1)', 'A helpful file for web', '/uploads/web/CCSW321-Part2.2-HTML (1).pdf', 'approved'),
+(1, 1, 'CCSW321-Part3.1-CSS', 'A helpful file for web', '/uploads/web/CCSW321-Part3.1-CSS.pdf', 'approved'),
+(1, 1, 'CCSW321-Part3.2-CSS', 'A helpful file for web', '/uploads/web/CCSW321-Part3.2-CSS.pdf', 'approved'),
+(1, 1, 'CCSW321-Part4-JS (1)', 'A helpful file for web', '/uploads/web/CCSW321-Part4-JS (1).pdf', 'approved'),
+(1, 1, 'CCSW321-Part5.1-JS4Web', 'A helpful file for web', '/uploads/web/CCSW321-Part5.1-JS4Web.pdf', 'approved'),
+(1, 1, 'CCSW321-Part5.2-JS4Web', 'A helpful file for web', '/uploads/web/CCSW321-Part5.2-JS4Web.pdf', 'approved'),
+(1, 1, 'CCSW321-Part6-JS4Backend', 'A helpful file for web', '/uploads/web/CCSW321-Part6-JS4Backend.pdf', 'approved'),
+(1, 4, '01 Fundamentals_modified-New', 'A helpful file for algorithm', '/uploads/algorithm/01 Fundamentals_modified-New.pptx', 'approved'),
+(1, 4, '02 Brute Force_modified', 'A helpful file for algorithm', '/uploads/algorithm/02 Brute Force_modified.pptx', 'approved'),
+(1, 4, '03 Divide and Conquer_modified', 'A helpful file for algorithm', '/uploads/algorithm/03 Divide and Conquer_modified.pptx', 'approved'),
+(1, 4, '04 Transform and Conquer', 'A helpful file for algorithm', '/uploads/algorithm/04 Transform and Conquer.pptx', 'approved'),
+(1, 4, '05 Space and Time Tradeoffs_modified', 'A helpful file for algorithm', '/uploads/algorithm/05 Space and Time Tradeoffs_modified.pptx', 'approved'),
+(1, 4, '06 Dynamic Programming', 'A helpful file for algorithm', '/uploads/algorithm/06 Dynamic Programming.pptx', 'approved'),
+(1, 4, '07 Greedy Technique', 'A helpful file for algorithm', '/uploads/algorithm/07 Greedy Technique.pptx', 'approved'),
+(1, 5, 'Chapter 1 What is Software Architecture', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 1 What is Software Architecture.pdf', 'approved'),
+(1, 5, 'Chapter 13 Patterns and Tactics', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 13 Patterns and Tactics.pdf', 'approved'),
+(1, 5, 'Chapter 16 Architecture and Requirements', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 16 Architecture and Requirements.pdf', 'approved'),
+(1, 5, 'Chapter 17 Designing an Architecture', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 17 Designing an Architecture.pdf', 'approved'),
+(1, 5, 'Chapter 3 The Many Contexts of Software.ppt', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 3 The Many Contexts of Software.ppt.pdf', 'approved'),
+(1, 5, 'Chapter 4 Understanding quality attributes', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 4 Understanding quality attributes.pdf', 'approved'),
+(1, 5, 'Chapter 5-11 Examples', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 5-11 Examples.pdf', 'approved'),
+(1, 5, 'Chapter 5-11 Quality attributesV3', 'A helpful file for Architecture', '/uploads/Architecture/Chapter 5-11 Quality attributesV3.pdf', 'approved');

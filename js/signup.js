@@ -23,11 +23,12 @@ if (signupForm) {
       const result = await response.json();
 
       if (result.success) {
-        signupMessage.textContent = "Account created! Redirecting to login...";
+        localStorage.setItem("uj_filehub_user", JSON.stringify(result.user));
+        signupMessage.textContent = "Account created! Logging you in...";
         signupMessage.style.color = "#51cf66";
         signupForm.reset();
         setTimeout(function () {
-          window.location.assign("login.html");
+          window.location.assign("index.html");
         }, 1000);
       } else {
         signupMessage.textContent = result.message || "Account creation failed.";

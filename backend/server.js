@@ -234,7 +234,7 @@ app.post("/api/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.query(
+    const [result] = await pool.query(
       `INSERT INTO users (full_name, university_id, email, password)
        VALUES (?, ?, ?, ?)`,
       [
@@ -247,7 +247,14 @@ app.post("/api/register", async (req, res) => {
 
     res.json({
       success: true,
-      message: "Account created successfully."
+      message: "Account created successfully.",
+      user: {
+        id: result.insertId,
+        full_name: full_name.trim(),
+        university_id: university_id.trim(),
+        email: email.trim(),
+        role: "student"
+      }
     });
   } catch (error) {
     res.status(500).json({
@@ -581,17 +588,8 @@ app.delete("/api/files/:id", async (req, res) => {
 
     const user = users[0];
 
-    let filesQuery = "SELECT id, file_path FROM files WHERE id = ? LIMIT 1";
-    let queryParams = [id];
-
-    if (user.role !== "admin") {
-      filesQuery = "SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1";
-      queryParams = [id, user.id];
-    }
-
-    const [files] = await pool.query(filesQuery, queryParams);
     // REVERTED: Normal user must own the file (No Admin bypass)
-    const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, user.id]);
     
     if (files.length === 0) {
       return res.status(403).json({ success: false, message: "You do not have permission to delete this file." });
@@ -667,7 +665,53 @@ app.delete("/api/study-sessions/:id", async (req, res) => {
   }
 });
 
+async function syncFilesWithDatabase() {
+  try {
+    const [admins] = await pool.query("SELECT id FROM users WHERE role = 'admin' LIMIT 1");
+    if (admins.length === 0) {
+      console.log("Sync skipped: No admin user found to assign files to.");
+      return;
+    }
+    const adminId = admins[0].id;
+
+    const folders = [
+      { name: 'web', course: 'Web Development' },
+      { name: 'algorithm', course: 'Algorithms' },
+      { name: 'Architecture', course: 'Computer Architecture' }
+    ];
+
+    for (const folder of folders) {
+      const courseId = await getCourseIdByName(folder.course);
+      if (!courseId) continue;
+
+      const dirPath = path.join(uploadsDir, folder.name);
+      if (!fs.existsSync(dirPath)) continue;
+
+      const files = fs.readdirSync(dirPath);
+      for (const file of files) {
+        if (file.startsWith('.')) continue; // skip hidden files
+
+        const filePath = `/uploads/${folder.name}/${file}`;
+        const [existing] = await pool.query("SELECT id FROM files WHERE file_path = ? LIMIT 1", [filePath]);
+
+        if (existing.length === 0) {
+          const fileTitle = file.replace(/\.[^/.]+$/, "");
+          await pool.query(
+            `INSERT INTO files (user_id, course_id, file_title, file_description, file_path, status)
+             VALUES (?, ?, ?, ?, ?, 'approved')`,
+            [adminId, courseId, fileTitle, `A helpful file for ${folder.course}`, filePath]
+          );
+          console.log(`Auto-synced: Added "${fileTitle}" to ${folder.course}`);
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Auto-sync failed:", err);
+  }
+}
+
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   await testConnection();
+  await syncFilesWithDatabase();
 });
