@@ -65,6 +65,43 @@ if(btnBrowse) btnBrowse.addEventListener("click", function() { switchTab(tabBrow
 if(btnUpload) btnUpload.addEventListener("click", function() { switchTab(tabUpload, btnUpload); });
 if(btnSessions) btnSessions.addEventListener("click", function() { switchTab(tabSessions, btnSessions); });
 
+/* ── DYNAMIC COURSE DROPDOWNS ── */
+async function loadCourseDropdowns() {
+  try {
+    const res = await fetch(API + "/api/courses");
+    const data = await res.json();
+
+    if (data.success && data.data) {
+      const filterDropdown = document.getElementById("courseFilter");
+      const uploadDropdown = document.getElementById("course-name");
+      const sessionDropdown = document.getElementById("session-course");
+
+      // Helper function to populate a specific dropdown
+      function populate(dropdown, defaultText) {
+        if (!dropdown) return;
+        // Keep the selected value if the user already chose something
+        const currentValue = dropdown.value; 
+        
+        // Clear old hardcoded options and set the default one
+        dropdown.innerHTML = `<option value="">${defaultText}</option>`;
+        
+        // Add the live courses from the database
+        data.data.forEach(course => {
+          dropdown.innerHTML += `<option value="${course.course_name}">${course.course_name}</option>`;
+        });
+
+        // Re-select their previous choice if it still exists
+        dropdown.value = currentValue;
+      }
+
+      populate(filterDropdown, "All Courses");
+      populate(uploadDropdown, "Select a course");
+      populate(sessionDropdown, "Select a course");
+    }
+  } catch (err) {
+    console.error("Failed to fetch live courses from database:", err);
+  }
+}
 
 /* ── Upload File form ── */
 const uploadForm = document.getElementById("uploadForm");
@@ -123,6 +160,8 @@ if (courseForm) {
       if (data.success) {
         showMsg(courseMsg, "Course added successfully!", false);
         courseForm.reset();
+        // REFRESH THE DROPDOWNS INSTANTLY SO THE NEW COURSE APPEARS
+        loadCourseDropdowns();
       } else {
         showMsg(courseMsg, data.message || "Failed to add course.", true);
       }
@@ -159,6 +198,10 @@ if (sessionForm) {
           var emailField = document.getElementById("session-email");
           if (emailField) emailField.value = user.email;
         }
+        // Reset the conditional display fields
+        if (locationContainer) locationContainer.style.display = "none";
+        if (linkContainer) linkContainer.style.display = "none";
+        
         loadSessions();
       } else {
         showMsg(sessionMsg, data.message || "Failed to create session.", true);
@@ -175,14 +218,12 @@ var pendingDelete = {};
 function deleteFile(fileId, btn) {
   if (!user) return;
 
-  // First click: change button to "Confirm?"
   if (!pendingDelete["file-" + fileId]) {
     pendingDelete["file-" + fileId] = true;
     if (btn) {
       btn.textContent = "⚠ Confirm?";
       btn.classList.add("btn-confirm");
     }
-    // Reset after 3 seconds if not confirmed
     setTimeout(function () {
       pendingDelete["file-" + fileId] = false;
       if (btn) {
@@ -193,7 +234,6 @@ function deleteFile(fileId, btn) {
     return;
   }
 
-  // Second click: actually delete
   pendingDelete["file-" + fileId] = false;
   var url = API + "/api/files/" + fileId + "?user_email=" + encodeURIComponent(user.email);
   fetch(url, { method: "DELETE" })
@@ -261,7 +301,6 @@ async function loadFiles(courseName) {
         year: "numeric", month: "short", day: "numeric"
       });
       
-      // REVERTED: Only the actual uploader can delete
       var isOwner = user && user.email === f.uploader_email;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteFile(' + f.id + ', this)">🗑 Delete</button>'
@@ -317,7 +356,6 @@ async function loadSessions(courseName) {
         locationInfo = '<span class="session-location">📍 ' + escHtml(s.location) + '</span>';
       }
 
-      // REVERTED: Only the actual creator can delete
       var isOwner = user && user.email === s.creator_email;
       var deleteBtn = isOwner
         ? '<button class="btn btn-delete btn-sm" onclick="deleteSession(' + s.id + ', this)">🗑 Delete</button>'
@@ -352,15 +390,53 @@ function escHtml(str) {
   return d.innerHTML;
 }
 
-/* ── Course filter ── */
+/* ── Course filter & Search Logic ── */
 var courseFilter = document.getElementById("courseFilter");
+var fileSearch = document.getElementById("fileSearch");
 var clearFilterBtn = document.getElementById("clearFilter");
 var filesSubtitle = document.getElementById("filesSubtitle");
 
-function applyFilter() {
+// Instant UI filtering (No API call required)
+function applySearchFilter() {
+  var searchText = fileSearch ? fileSearch.value.toLowerCase() : "";
+  
+  // Filter uploaded files
+  var fileCards = document.querySelectorAll("#filesGrid .file-card");
+  fileCards.forEach(function(card) {
+    var title = card.querySelector("h3") ? card.querySelector("h3").textContent.toLowerCase() : "";
+    var desc = card.querySelector("p") ? card.querySelector("p").textContent.toLowerCase() : "";
+    if (title.includes(searchText) || desc.includes(searchText)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  // Filter study sessions
+  var sessionCards = document.querySelectorAll("#sessionsGrid .session-card");
+  sessionCards.forEach(function(card) {
+    var badge = card.querySelector(".card-badge") ? card.querySelector(".card-badge").textContent.toLowerCase() : "";
+    var notes = card.querySelector(".session-notes") ? card.querySelector(".session-notes").textContent.toLowerCase() : "";
+    if (badge.includes(searchText) || notes.includes(searchText)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+
   var selected = courseFilter ? courseFilter.value : "";
-  loadFiles(selected);
-  loadSessions(selected);
+  if (clearFilterBtn) {
+    clearFilterBtn.style.display = (selected || searchText) ? "inline-block" : "none";
+  }
+}
+
+// Database filtering (Requires API call)
+async function applyFilter() {
+  var selected = courseFilter ? courseFilter.value : "";
+  
+  // Fetch files and sessions from backend
+  await loadFiles(selected);
+  await loadSessions(selected);
 
   if (filesSubtitle) {
     filesSubtitle.textContent = selected
@@ -368,21 +444,62 @@ function applyFilter() {
       : "Files uploaded by students across all courses.";
   }
 
-  if (clearFilterBtn) {
-    clearFilterBtn.style.display = selected ? "inline-block" : "none";
-  }
+  // Re-apply the text search logic immediately after loading new cards
+  applySearchFilter();
 }
 
+// Event Listeners
 if (courseFilter) {
   courseFilter.addEventListener("change", applyFilter);
+}
+
+if (fileSearch) {
+  fileSearch.addEventListener("input", applySearchFilter);
 }
 
 if (clearFilterBtn) {
   clearFilterBtn.addEventListener("click", function () {
     if (courseFilter) courseFilter.value = "";
+    if (fileSearch) fileSearch.value = "";
     applyFilter();
   });
 }
 
+/* ── Conditional Form Logic: Session Type Toggle ── */
+const sessionTypeSelect = document.getElementById("session-type");
+const locationContainer = document.getElementById("location-container");
+const linkContainer = document.getElementById("link-container");
+
+if (sessionTypeSelect) {
+  sessionTypeSelect.addEventListener("change", function() {
+    const type = this.value;
+
+    if (type === "online") {
+      // Show Link, Hide Location
+      linkContainer.style.display = "block";
+      locationContainer.style.display = "none";
+      // Clear location input so no "ghost" data is sent
+      const locInput = document.getElementById("session-location");
+      if (locInput) locInput.value = ""; 
+    } 
+    else if (type === "on-campus") {
+      // Show Location, Hide Link
+      locationContainer.style.display = "block";
+      linkContainer.style.display = "none";
+      // Clear link input so no "ghost" data is sent
+      const linkInput = document.getElementById("meeting-link");
+      if (linkInput) linkInput.value = "";
+    } 
+    else {
+      // Hide both if the user resets the dropdown to "Select session type"
+      locationContainer.style.display = "none";
+      linkContainer.style.display = "none";
+    }
+  });
+}
+
 /* ── initial load ── */
-applyFilter();
+// Load dynamic dropdowns first, then load the files
+loadCourseDropdowns().then(() => {
+  applyFilter();
+});

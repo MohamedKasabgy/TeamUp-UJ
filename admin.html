@@ -95,28 +95,54 @@
     </div>
 
     <div class="admin-sections">
-      <!-- ── Section 1: Pending Moderation ── -->
       <section>
         <div class="admin-section-heading">
           <h2>📥 Files Awaiting Approval</h2>
           <span class="mini-badge gradient-badge" id="pendingCounter">0 pending</span>
         </div>
+
+        <div class="filter-bar" style="margin-bottom: 24px;">
+          <div class="filter-bar-left">
+            <span class="filter-icon">🔍</span>
+            <h3 style="font-size: 1.05rem;">Search Pending</h3>
+          </div>
+          <div class="filter-bar-right">
+            <input type="text" id="pendingSearch" placeholder="Search file title, description...">
+            <select id="pendingCourseFilter">
+              <option value="">All Courses</option>
+            </select>
+            <button class="btn btn-brand btn-filter" id="clearPendingFilter" style="display:none;">✕ Clear</button>
+          </div>
+        </div>
+
         <div class="cards" id="pendingFilesGrid">
-          <!-- Dynamically populated via JS -->
           <p class="empty-state">No files pending approval.</p>
         </div>
       </section>
 
       <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;" />
 
-      <!-- ── Section 2: Already Approved Files ── -->
       <section>
         <div class="admin-section-heading">
           <h2>✅ Already Approved Files</h2>
           <span class="mini-badge gradient-badge" id="approvedCounter">0 approved</span>
         </div>
+
+        <div class="filter-bar" style="margin-bottom: 24px;">
+          <div class="filter-bar-left">
+            <span class="filter-icon">🔍</span>
+            <h3 style="font-size: 1.05rem;">Search Approved</h3>
+          </div>
+          <div class="filter-bar-right">
+            <input type="text" id="approvedSearch" placeholder="Search file title, description...">
+            <select id="approvedCourseFilter">
+              <option value="">All Courses</option>
+            </select>
+            <button class="btn btn-brand btn-filter" id="clearApprovedFilter" style="display:none;">✕ Clear</button>
+          </div>
+        </div>
+
         <div class="cards" id="approvedFilesGrid">
-          <!-- Dynamically populated via JS -->
           <p class="empty-state">No approved files yet.</p>
         </div>
       </section>
