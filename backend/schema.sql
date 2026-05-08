@@ -72,18 +72,12 @@ INSERT INTO courses (course_name, course_code, description) VALUES
 ('Artificial Intelligence', 'AI310', 'AI basics, search, agents, and intelligent systems.'),
 ('Cybersecurity', 'CYB320', 'Security concepts, threats, and defensive techniques.');
 
--- Create the team admin accounts and one student for testing
 -- Create the team admin accounts
 INSERT INTO users (full_name, university_id, email, password, role) VALUES
-('Mohammed Sharif', '2342932', '2342932@uj.edu.sa', '$2b$10$vQW9kduwKhOD3S4rsOAYfe8vuXEL/xhXcvwiYEPCGzkUoiQvhvZ7q', 'admin'),
-('Mohammed Elkasabgy', '2342943', '2342943@uj.edu.sa', '$2b$10$vQW9kduwKhOD3S4rsOAYfe8vuXEL/xhXcvwiYEPCGzkUoiQvhvZ7q', 'admin'),
-('Rian Khalid', '2342945', '2342945@uj.edu.sa', '$2b$10$vQW9kduwKhOD3S4rsOAYfe8vuXEL/xhXcvwiYEPCGzkUoiQvhvZ7q', 'admin');
+('Mohammed Sharif', '2342932', '2342932@uj.edu.sa', '$2b$10$2XSgUgCHZWH05ol6Z6WjyOPFRQc5wP4oSQpm/hNzmG8sCKoKchopS', 'admin'),
+('Mohammed Elkasabgy', '2342945', '2342945@uj.edu.sa', '$2b$10$2XSgUgCHZWH05ol6Z6WjyOPFRQc5wP4oSQpm/hNzmG8sCKoKchopS', 'admin'),
+('Rian Khalid', '2342943', '2342943@uj.edu.sa', '$2b$10$2XSgUgCHZWH05ol6Z6WjyOPFRQc5wP4oSQpm/hNzmG8sCKoKchopS', 'admin');
 
 -- Add one standard student account so you can test regular uploads
 INSERT INTO users (full_name, university_id, email, password, role) VALUES
-('Test Student', '111222', 'student@uj.edu.sa', '$2b$10$vQW9kduwKhOD3S4rsOAYfe8vuXEL/xhXcvwiYEPCGzkUoiQvhvZ7q', 'student');
-
--- Create test files linked to the student (user_id 4)
-INSERT INTO files (user_id, course_id, file_title, file_description, file_path, status) VALUES
-(4, 1, 'Lab 6 Guide', 'Intro to Node.js and routing', '/uploads/1777624892158-Lab_6.pdf', 'approved'),
-(4, 1, 'Web Development Notes', 'Study notes for CSS and JavaScript', '/uploads/1777237320316-Node-JS-Routing-Examples.pdf', 'approved');
+('Test Student', '111222', 'student@uj.edu.sa', '$2b$10$2XSgUgCHZWH05ol6Z6WjyOPFRQc5wP4oSQpm/hNzmG8sCKoKchopS', 'student');

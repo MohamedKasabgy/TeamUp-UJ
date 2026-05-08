@@ -290,7 +290,14 @@ async function loadFiles(courseName) {
     var data = await res.json();
 
     if (!data.success || !data.data.length) {
-      filesGrid.innerHTML = '<p class="empty-state">No files uploaded yet.</p>';
+      filesGrid.innerHTML = `
+        <div class="empty-state-card">
+          <span class="empty-state-icon">📂</span>
+          <h3>No resources found</h3>
+          <p>We couldn't find any files for this course yet. Why not be the first to help your peers?</p>
+          <button class="btn btn-brand btn-sm" onclick="document.getElementById('btn-tab-upload').click()">Upload a Resource</button>
+        </div>
+      `;
       return;
     }
 
@@ -338,7 +345,14 @@ async function loadSessions(courseName) {
     var data = await res.json();
 
     if (!data.success || !data.data.length) {
-      sessionsGrid.innerHTML = '<p class="empty-state">No study sessions scheduled yet.</p>';
+      sessionsGrid.innerHTML = `
+        <div class="empty-state-card">
+          <span class="empty-state-icon">🤝</span>
+          <h3>No study sessions</h3>
+          <p>There are no sessions scheduled for this course. Start one yourself to invite others!</p>
+          <button class="btn btn-brand btn-sm" onclick="document.getElementById('btn-tab-upload').click()">Create a Session</button>
+        </div>
+      `;
       return;
     }
 

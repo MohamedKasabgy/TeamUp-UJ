@@ -77,7 +77,13 @@ async function loadPendingFiles(courseName = "") {
     const data = await res.json();
 
     if (!data.success || !data.data.length) {
-      grid.innerHTML = '<p class="empty-state">No files pending approval.</p>';
+      grid.innerHTML = `
+        <div class="empty-state-card" style="padding: 40px 20px;">
+          <span class="empty-state-icon" style="font-size: 2.5rem;">✨</span>
+          <h3>All caught up!</h3>
+          <p>There are no files waiting for your approval right now.</p>
+        </div>
+      `;
       if (counter) counter.textContent = "0 pending";
       return;
     }
@@ -126,7 +132,13 @@ async function loadApprovedFiles(courseName = "") {
     const data = await res.json();
 
     if (!data.success || !data.data.length) {
-      grid.innerHTML = '<p class="empty-state">No approved files yet.</p>';
+      grid.innerHTML = `
+        <div class="empty-state-card" style="padding: 40px 20px;">
+          <span class="empty-state-icon" style="font-size: 2.5rem;">📂</span>
+          <h3>No approved files</h3>
+          <p>You haven't approved any files yet for this course.</p>
+        </div>
+      `;
       if (counter) counter.textContent = "0 approved";
       return;
     }
@@ -295,6 +307,53 @@ async function deleteAdminFile(fileId, isPending) {
   }
 }
 
+// ── Load Contact Messages ──
+async function loadContactMessages() {
+  const grid = document.getElementById("messagesGrid");
+  const counter = document.getElementById("messagesCounter");
+  if (!grid) return;
+
+  try {
+    const res = await fetch(API + "/api/messages");
+    const data = await res.json();
+
+    if (!data.success || !data.data.length) {
+      grid.innerHTML = `
+        <div class="empty-state-card" style="padding: 40px 20px;">
+          <span class="empty-state-icon" style="font-size: 2.5rem;">✉️</span>
+          <h3>No messages yet</h3>
+          <p>Your inbox is currently empty. New contact inquiries will appear here.</p>
+        </div>
+      `;
+      if (counter) counter.textContent = "0 messages";
+      return;
+    }
+
+    if (counter) counter.textContent = data.data.length + " messages";
+
+    var html = "";
+    for (var i = 0; i < data.data.length; i++) {
+      var m = data.data[i];
+      var date = new Date(m.created_at).toLocaleString("en-US", {
+        year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+      });
+
+      html += '<div class="file-card">';
+      html += '<span class="card-badge gradient-badge">' + escHtml(m.language) + '</span>';
+      html += '<h3>' + escHtml(m.first_name + " " + m.last_name) + '</h3>';
+      html += '<p><strong>Email:</strong> ' + escHtml(m.email) + '<br><strong>Mobile:</strong> ' + escHtml(m.mobile) + '</p>';
+      html += '<p style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;">' + escHtml(m.message) + '</p>';
+      html += '<div class="file-meta">';
+      html += '<span>Sent on ' + date + '</span>';
+      html += '</div>';
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+  } catch (err) {
+    grid.innerHTML = '<p class="empty-state">Error loading messages.</p>';
+  }
+}
+
 // Make functions accessible globally
 window.moderateFile = moderateFile;
 window.deleteAdminFile = deleteAdminFile;
@@ -303,4 +362,5 @@ window.deleteAdminFile = deleteAdminFile;
 loadAdminCourseDropdowns().then(() => {
   applyPendingDBFilter();
   applyApprovedDBFilter();
+  loadContactMessages();
 });

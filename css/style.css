@@ -675,8 +675,39 @@
     grid-column: 1 / -1;
     text-align: center;
     color: var(--muted);
-    padding: 40px 20px;
+    padding: 20px;
     font-size: 1rem;
+  }
+
+  .empty-state-card {
+    grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 60px 20px;
+    text-align: center;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    margin: 20px 0;
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .empty-state-card h3 {
+    color: var(--heading);
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+  }
+
+  .empty-state-card p {
+    color: var(--muted);
+    max-width: 350px;
+    margin: 0 auto 20px auto;
+    font-size: 0.95rem;
   }
 
   #upload-message,
