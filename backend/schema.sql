@@ -81,4 +81,3 @@ INSERT INTO users (full_name, university_id, email, password, role) VALUES
 -- Add one standard student account so you can test regular uploads
 INSERT INTO users (full_name, university_id, email, password, role) VALUES
 ('Test Student', '111222', 'student@uj.edu.sa', '$2b$10$2XSgUgCHZWH05ol6Z6WjyOPFRQc5wP4oSQpm/hNzmG8sCKoKchopS', 'student');
-
