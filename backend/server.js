@@ -588,8 +588,15 @@ app.delete("/api/files/:id", async (req, res) => {
 
     const user = users[0];
 
-    // REVERTED: Normal user must own the file (No Admin bypass)
-    const [files] = await pool.query("SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1", [id, user.id]);
+    let filesQuery = "SELECT id, file_path FROM files WHERE id = ? LIMIT 1";
+    let queryParams = [id];
+
+    if (user.role !== "admin") {
+      filesQuery = "SELECT id, file_path FROM files WHERE id = ? AND user_id = ? LIMIT 1";
+      queryParams = [id, user.id];
+    }
+
+    const [files] = await pool.query(filesQuery, queryParams);
     
     if (files.length === 0) {
       return res.status(403).json({ success: false, message: "You do not have permission to delete this file." });
@@ -643,18 +650,25 @@ app.delete("/api/study-sessions/:id", async (req, res) => {
       return res.status(400).json({ success: false, message: "User email is required." });
     }
 
-    const [users] = await pool.query("SELECT id FROM users WHERE email = ? LIMIT 1", [user_email.trim()]);
+    const [users] = await pool.query("SELECT id, role FROM users WHERE email = ? LIMIT 1", [user_email.trim()]);
     if (users.length === 0) {
       return res.status(400).json({ success: false, message: "User not found." });
     }
 
-    const userId = users[0].id;
+    const user = users[0];
 
-    // REVERTED: Normal user check (No Admin bypass)
-    const [sessions] = await pool.query("SELECT id FROM study_sessions WHERE id = ? AND user_id = ? LIMIT 1", [id, userId]);
+    let sessionsQuery = "SELECT id FROM study_sessions WHERE id = ? LIMIT 1";
+    let queryParams = [id];
+
+    if (user.role !== "admin") {
+      sessionsQuery = "SELECT id FROM study_sessions WHERE id = ? AND user_id = ? LIMIT 1";
+      queryParams = [id, user.id];
+    }
+
+    const [sessions] = await pool.query(sessionsQuery, queryParams);
     
     if (sessions.length === 0) {
-      return res.status(403).json({ success: false, message: "You can only delete your own sessions." });
+      return res.status(403).json({ success: false, message: "You do not have permission to delete this session." });
     }
 
     await pool.query("DELETE FROM study_sessions WHERE id = ?", [id]);
